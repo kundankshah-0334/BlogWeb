@@ -116,6 +116,43 @@ app.get('/post/:id', async (req , res) => {
     const resp = await Post.findById(id).populate('author' , ['username']);
     res.json(resp);
 })
+
+app.put("/post" , uploadMiddleware.single('file') , async (req , res ) => {
+    // req.json({test:4, fileIs : req.file});
+    let newPath = null;
+    if(req.file){
+        const {originalname,path} = req.file;
+        const parts = originalname.split(".");
+        const ext = parts[parts.length -1]
+        newPath = path+"."+ext;
+        fs.renameSync(path , newPath )
+    }
+
+
+    const {token} = req.cookies;
+    jwt.verify(token , secret , {} , async (err , info) => {
+        if (err) throw err;
+
+        const {id ,title, summary , content} = req.body;
+        const postDoc = await Post.findById(id);
+        const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id)
+        res.json(isAuthor);
+        if(!isAuthor){
+            return res.status(400).json("You are not Author of this post");
+        }
+
+        await postDoc.update({
+            title ,
+             summary ,
+              content,
+               cover: newPath ? newPath : postDoc.cover,
+            })
+
+    })
+
+    res.json(PostDoc);
+
+})
 app.listen(PORT , () => {
     console.log(`Server is runnig on ${PORT} number.`)
 })
