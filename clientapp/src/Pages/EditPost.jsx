@@ -51,9 +51,9 @@ function EditPost() {
                 console.error('Fetch error:', error);
                 // Handle the error, e.g., show an error message to the user
             });
-    }, [id]);
+    }, []);
 
-    
+
     async function UpdatePost (e) {
 
         e.preventDefault();
