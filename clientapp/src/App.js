@@ -4,6 +4,7 @@ import Navbar from "./component/Navbar/Navbar";
 import Post from "./component/post/Post";
 import {Routes , Route} from "react-router-dom"
 import CreatePost from "./component/CreatePost/CreatePost";
+import IndexPage from "./component/post/IndexPage";
 
 function App() {
   return (
@@ -12,9 +13,7 @@ function App() {
       <Route index element={
         <main>
           <Navbar />
-          <Post />
-          <Post />
-          <Post />
+          <IndexPage />
         </main>
       }
       />

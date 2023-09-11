@@ -85,9 +85,12 @@ app.post('/post' ,  uploadMiddleware.single('file'), async (req, res) => {
         content,
         cover:newPath,
     });
-
-    
  res.json(PostDoc)
+})
+
+app.get("/post", async (req,res) => {
+  
+    res.json(await Post.find());
 })
 app.listen(PORT , () => {
     console.log(`Server is runnig on ${PORT} number.`)
