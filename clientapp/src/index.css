@@ -95,3 +95,70 @@ img{
    margin-top: 9px;
 
  }
+ .texts a{
+  text-decoration: none;
+  color: inherit;
+ }
+
+ 
+
+ .heading-post{
+  text-align: center;
+ }
+
+ .post-image img{
+  object-fit: cover;
+  object-position: center center;
+  margin-bottom: 15px;
+  margin-top: 0px;
+  border-radius: 5px;
+  height: 280px;
+  width: 100%;
+ }
+ .timeanduser{
+  margin-top: -7px;
+ 
+ }
+ .editpostdiv{
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 8px;
+ }
+
+ .editpostdiv .edit-post-btn{
+text-decoration: none;
+padding: 2px;
+font-size: .8rem;
+padding-left: 9px;
+padding-right: 9px;
+border-radius: 3px;
+cursor: pointer;
+ }
+.edit-post-btn svg{
+  height: 13px;
+  width: 13px;
+  margin-bottom: 3px;
+  margin-right: 3px;
+/* text-decoration: none;
+padding: 2px;
+font-size: .8rem;
+padding-left: 9px;
+padding-right: 9px;
+border-radius: 3px;
+cursor: pointer; */
+ }
+ .timeanduser .time{
+  text-align: center;
+  display: block;
+  color: #333;
+  font-size: 0.8rem;
+
+ }
+ .timeanduser .user{
+  text-align: center;
+  /* display: block; */
+  color: #0f0f0f;
+  font-size: .9rem;
+  margin-bottom: 20px;
+  margin-top: -20px;
+ }

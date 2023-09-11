@@ -40,6 +40,7 @@ function CreatePost() {
         const responce = await fetch('http://localhost:8000/post' , {
             method:'POST',
             body:data,
+            credentials : 'include',
         })
         console.log(files)
 
