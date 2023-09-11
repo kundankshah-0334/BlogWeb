@@ -68,7 +68,7 @@ app.get('/profile' , (req , res) => {
 app.post('/logout' ,(req, res) => {
     const {token} = req.cookies;
     res.cookie('token' , "");
-    res.json('ok cookie removed');
+    res.json('ok cookie removed'); 
 })
 
 app.post('/post' ,  uploadMiddleware.single('file'), async (req, res) => {

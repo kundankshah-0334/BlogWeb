@@ -13,7 +13,7 @@ function Post() {
             <p className='info'>
                 <span className='author'>Prem das  </span>
                 <time>18:34 13-05-2022</time>
-            </p>
+            </p>   ~
 
             <p className='summary'>Clear Goal Setting: Before embarking on your self-development journey, establish clear goals. Expand your vocabulary, or enhance your fluency, having specific objectives effectively.</p>
         </div>
