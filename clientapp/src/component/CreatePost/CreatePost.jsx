@@ -65,8 +65,8 @@ function CreatePost() {
       <input value={title} onChange={(e) => {SetTitle(e.target.value)}} class="form-control"  type="title" placeholder='Enter title' /> 
       <input value={summary} onChange={(e) => {SetSummary(e.target.value)}} class="form-control" type="summary" placeholder='Enter Summary' />  
       <input type="file" onChange={(e) => {SetFiles(e.target.files)}} /> 
-      <ReactQuill value={content} onChange={(newValue) => {SetContent(newValue)}} modules={modules} formats={formats}/>
-       <button className='create-post-btn btn btn-success'>Create Post</button>
+      <ReactQuill value={content} onChange={SetContent} modules={modules} formats={formats}/>
+       <button className='create-post-btn btn btn-success mt-2'>Create Post</button>
 
       </form>
 

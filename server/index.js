@@ -17,7 +17,17 @@ app.use('/uploads' , express.static(__dirname + '/uploads'));
 const secret = "skdrfuhq43r732hef734gyu8234sdfvsdfgsdfsdfgsdf4";
 
 
-mongoose.connect("mongodb+srv://kundanlal96580:P3kFgKWNGvqxDB8k@cluster0.dlkxxnw.mongodb.net/?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://kundanlal96580:P3kFgKWNGvqxDB8k@cluster0.dlkxxnw.mongodb.net/?retryWrites=true&w=majority", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => {
+    console.log('Connected to MongoDB');
+})
+.catch(err => {
+    console.error('Error connecting to MongoDB:', err);
+});
+
 
 app.use(cors({credentials : true , origin : "http://localhost:3000"}));
 app.use(express.json());
@@ -43,7 +53,6 @@ app.post("/login" , async (req, res) => {
         const matched =  bcrypt.compareSync(password, UserDoc.password); 
    
         if(matched){
-            // logged in
             jwt.sign({username , id : UserDoc._id} , secret , {} ,(err, token) => {
                 if (err) throw err;
                 res.cookie('token' , token);
@@ -51,7 +60,6 @@ app.post("/login" , async (req, res) => {
 
             })
         }else{
-            //invalid crenentials;
             res.status(400).json('invalid crenentials');
         }
  
@@ -97,9 +105,6 @@ app.post('/post' ,  uploadMiddleware.single('file'), async (req, res) => {
         res.json(PostDoc)
     })
 
-
-
-//  res.json(PostDoc)
 })
 
 app.get("/post", async (req,res) => {
@@ -118,41 +123,66 @@ app.get('/post/:id', async (req , res) => {
 })
 
 app.put("/post" , uploadMiddleware.single('file') , async (req , res ) => {
-    // req.json({test:4, fileIs : req.file});
-    let newPath = null;
+    let newPath = ''; 
     if(req.file){
         const {originalname,path} = req.file;
         const parts = originalname.split(".");
-        const ext = parts[parts.length -1]
+        const ext = parts[parts.length - 1]
         newPath = path+"."+ext;
         fs.renameSync(path , newPath )
     }
 
 
-    const {token} = req.cookies;
-    jwt.verify(token , secret , {} , async (err , info) => {
-        if (err) throw err;
+    const { token } = req.cookies;
 
-        const {id ,title, summary , content} = req.body;
-        const postDoc = await Post.findById(id);
-        const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id)
-        res.json(isAuthor);
-        if(!isAuthor){
-            return res.status(400).json("You are not Author of this post");
+jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) {
+        return res.status(401).json("Invalid token"); // Handle invalid token
+    }
+
+    const { id, title, summary, content } = req.body;
+
+    try {
+        const post = await Post.findById(id);
+        console.log(post);
+        if (!post) {
+            return res.status(404).json("Post not found");
         }
 
-        await postDoc.update({
-            title ,
-             summary ,
-              content,
-               cover: newPath ? newPath : postDoc.cover,
-            })
+        const isAuthor = JSON.stringify(post.author) === JSON.stringify(info.id);
 
-    })
+        console.log(isAuthor);
+        if (!isAuthor) {
+            return res.status(400).json("You are not the author of this post");
+        }
 
-    res.json(PostDoc);
+        const update = {
+            title,
+            summary,
+            content,
+            cover: newPath ? newPath : post.cover,
+        };
 
-})
+        const updatedPost = await Post.updateOne({ _id: id }, update);
+
+
+        console.log(updatedPost);
+
+        if (updatedPost.modifiedCount === 1) {
+            const updatedPostDoc = await Post.findById(id);
+            res.json(updatedPostDoc);
+        } else {
+            return res.status(500).json("Failed to update post");
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+});
+
+
 app.listen(PORT , () => {
     console.log(`Server is runnig on ${PORT} number.`)
 })

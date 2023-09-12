@@ -1,11 +1,11 @@
 import React, { useEffect , useState } from 'react'
 import Navbar from '../component/Navbar/Navbar'
 import { useParams } from 'react-router-dom'
-import { compareAsc, format, formatISO9075 } from 'date-fns'
+import { formatISO9075 } from 'date-fns'
 import { Link } from 'react-router-dom'
 
 function PostPage() {
-    const [postInfo , SetPostInfo] = useState([]);
+    const [postInfo , SetPostInfo] = useState(null);
 const {id} = useParams();
 useEffect(() => {
     fetch(`http://localhost:8000/post/${id}`)
@@ -14,7 +14,7 @@ useEffect(() => {
         SetPostInfo(postInfo);
     })
 })
-    console.log(postInfo);
+    // console.log(postInfo);
     } , [])
 
 
@@ -42,9 +42,7 @@ useEffect(() => {
             {postInfo.title}
         </h2>
         <div className='timeanduser'>
-              {/* <time>{format(new Date(postInfo.createdAt) , ' d MMM 	yyyy  HH:mm')}</time> */}
-              {/* <time>{formatISO9075(new Date(postInfo.createdAt))}</time> */}
-            <p className='time'>{postInfo.createdAt}</p>
+              <p className='time'>{formatISO9075(new Date(postInfo.createdAt))}</p>
             <p className='user'>by @ {postInfo.author ? postInfo.author.username : 'Unknown Author'}</p>
         </div>
         {
@@ -60,9 +58,6 @@ useEffect(() => {
             </div>
         )
         }
-
-
-     
 
 
         <div className='post-image'>
