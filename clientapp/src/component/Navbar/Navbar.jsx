@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react';
 import {Link} from "react-router-dom"
 
-
 function Navbar() {
 
   const [username , SetUsername] = useState(null);
@@ -37,21 +36,16 @@ function Navbar() {
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-
-
-
-
                         { username && (
                           <>
-                          <li class="nav-item">
-                          <Link class="nav-link" to="/create">Create New Post</Link>
-                          </li>
-                          <li class="nav-item">
-                          <Link class="nav-link" onClick={logout} >Logout</Link>
-                          </li>
+                            <li class="nav-item">
+                            <Link class="nav-link" to="/create">Create New Post</Link>
+                            </li>
 
+                            <li class="nav-item">
+                            <Link class="nav-link" onClick={logout} >Logout</Link>
+                            </li>
                           </>
-                       
                         )}
                         { !username && (
                           <>
@@ -63,15 +57,12 @@ function Navbar() {
                             <Link class="nav-link" to="register">Register</Link>
                             </li>
                           </>
-                       
                           )
                         }
-                     
                     </ul>
-                
                 </div>
         </div>
-     </nav>
+      </nav>
     </div>
     </>
   )

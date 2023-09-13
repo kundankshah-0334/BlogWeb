@@ -60,18 +60,14 @@ function CreatePost() {
     <>
       <Navbar />
       <div className='create-post'>
-      <form onSubmit={createNewPost}>
-      
-      <input value={title} onChange={(e) => {SetTitle(e.target.value)}} class="form-control"  type="title" placeholder='Enter title' /> 
-      <input value={summary} onChange={(e) => {SetSummary(e.target.value)}} class="form-control" type="summary" placeholder='Enter Summary' />  
-      <input type="file" onChange={(e) => {SetFiles(e.target.files)}} /> 
-      <ReactQuill value={content} onChange={SetContent} modules={modules} formats={formats}/>
-       <button className='create-post-btn btn btn-success mt-2'>Create Post</button>
-
-      </form>
-
+        <form onSubmit={createNewPost}>
+          <input value={title} onChange={(e) => {SetTitle(e.target.value)}} class="form-control"  type="title" placeholder='Enter title' /> 
+          <input value={summary} onChange={(e) => {SetSummary(e.target.value)}} class="form-control" type="summary" placeholder='Enter Summary' />  
+          <input type="file" onChange={(e) => {SetFiles(e.target.files)}} /> 
+          <ReactQuill value={content} onChange={SetContent} modules={modules} formats={formats}/>
+          <button className='create-post-btn btn btn-success mt-2'>Create Post</button>
+        </form>
       </div>
-        
     </>
   )
 }

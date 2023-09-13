@@ -12,11 +12,7 @@ const fs = require("fs")
 const Post = require("./Model/PostModel.js")
 
 app.use('/uploads' , express.static(__dirname + '/uploads'));
-
-
 const secret = "skdrfuhq43r732hef734gyu8234sdfvsdfgsdfsdfgsdf4";
-
-
 mongoose.connect("mongodb+srv://kundanlal96580:P3kFgKWNGvqxDB8k@cluster0.dlkxxnw.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -32,9 +28,7 @@ mongoose.connect("mongodb+srv://kundanlal96580:P3kFgKWNGvqxDB8k@cluster0.dlkxxnw
 app.use(cors({credentials : true , origin : "http://localhost:3000"}));
 app.use(express.json());
 app.use(cookieParser());
-
 var salt = bcrypt.genSaltSync(10);
-
 const PORT = 8000;
 
 app.post("/register" , async (req, res) => {
@@ -62,7 +56,6 @@ app.post("/login" , async (req, res) => {
         }else{
             res.status(400).json('invalid crenentials');
         }
- 
 });
 
 
@@ -88,7 +81,6 @@ app.post('/post' ,  uploadMiddleware.single('file'), async (req, res) => {
     const newPath = path+"."+ext;
     fs.renameSync(path , newPath )
 
-
     const {token} = req.cookies;
     jwt.verify(token , secret , {} , async (err , info) => {
         if (err) throw err;
@@ -104,7 +96,6 @@ app.post('/post' ,  uploadMiddleware.single('file'), async (req, res) => {
 
         res.json(PostDoc)
     })
-
 })
 
 app.get("/post", async (req,res) => {
@@ -131,8 +122,6 @@ app.put("/post" , uploadMiddleware.single('file') , async (req , res ) => {
         newPath = path+"."+ext;
         fs.renameSync(path , newPath )
     }
-
-
     const { token } = req.cookies;
 
 jwt.verify(token, secret, {}, async (err, info) => {
@@ -165,7 +154,6 @@ jwt.verify(token, secret, {}, async (err, info) => {
 
         const updatedPost = await Post.updateOne({ _id: id }, update);
 
-
         console.log(updatedPost);
 
         if (updatedPost.modifiedCount === 1) {
@@ -179,12 +167,11 @@ jwt.verify(token, secret, {}, async (err, info) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-
 });
-
 
 app.listen(PORT , () => {
     console.log(`Server is runnig on ${PORT} number.`)
 })
- 
+
+
 

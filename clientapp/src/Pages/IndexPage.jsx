@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Post from '../component/post/Post'
 
-
 function IndexPage() {
     const [posts , SetPosts] = useState([]);
 
@@ -9,7 +8,6 @@ function IndexPage() {
         fetch('http://localhost:8000/post').then(responce => {
           responce.json().then(posts => {
             SetPosts(posts);
-            // console.log(posts);
           })
         })
     
@@ -20,8 +18,6 @@ function IndexPage() {
         {posts.length  > 0 && posts.map(post => (
             <Post {...post} />
         ))}
-
-      
      </>
   )
 }
